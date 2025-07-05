@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, Animated, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Animated, Dimensions, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
 
 type SplashScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Splash'>;
 
@@ -31,17 +30,11 @@ const SplashScreen: React.FC = () => {
       }),
     ]).start();
 
-    // Navegar después de 3 segundos
-    const timer = setTimeout(() => {
-      navigation.replace('Home');
-    }, 3000);
-
-    return () => clearTimeout(timer);
   }, [navigation]);
 
   return (
     <LinearGradient
-      colors={['#E5E5E5', '#C4E5E5']}
+      colors={['#fff', '#fff']}
       style={styles.container}
     >
       <Animated.View 
@@ -55,21 +48,20 @@ const SplashScreen: React.FC = () => {
       >
         {/* Icono del carro con WiFi */}
         <View style={styles.carIconContainer}>
-          <View style={styles.wifiIcon}>
-            <Ionicons name="wifi" size={40} color="#333" />
-          </View>
-          <Ionicons name="car" size={80} color="#333" />
+          <Image source={require('../../assets/logoSPX.png')} style={{ width: 300, height: 300 }} resizeMode="contain"/>
         </View>
-        
-        {/* Texto SPX */}
-        <Text style={styles.title}>SPX</Text>
-        <Text style={styles.subtitle}>SMART PARKING</Text>
-        <Text style={styles.subtitle}>EXPERIENCE</Text>
         
         {/* Botón de navegación */}
-        <View style={styles.navigationButton}>
-          <Text style={styles.buttonText}>Iniciar Navegación</Text>
-        </View>
+        <TouchableOpacity onPress={() => navigation.replace('Home')}>
+          <LinearGradient
+            colors={['#1f3339', '#06a3c4']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.navigationButton}
+          >
+            <Text style={styles.buttonText}>Iniciar Navegación</Text>
+          </LinearGradient>
+        </TouchableOpacity>
       </Animated.View>
       
       {/* Footer */}
@@ -127,7 +119,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255, 255, 255, 0.5)',
   },
   buttonText: {
-    color: '#333',
+    color: '#fff',
     fontSize: 16,
     fontWeight: '500',
   },

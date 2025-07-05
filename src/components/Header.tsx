@@ -20,7 +20,9 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   return (
     <LinearGradient
-      colors={['rgba(196, 229, 229, 0.8)', 'rgba(196, 229, 229, 0.4)']}
+      colors={['#1f3339', '#06a3c4']}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 0 }}
       style={styles.header}
     >
       <View style={styles.headerContent}>
@@ -30,7 +32,7 @@ const Header: React.FC<HeaderProps> = ({
           </TouchableOpacity>
         ) : (
           <View style={styles.logoContainer}>
-            <Image source={require('../../assets/logoSPX.png')} style={{ width: 100, height: 40 }} resizeMode="contain"/>
+            <Image source={require('../../assets/logoSPX-Small.png')} style={{ width: 100, height: 40 }} resizeMode="contain"/>
           </View>
         )}
         
@@ -40,7 +42,7 @@ const Header: React.FC<HeaderProps> = ({
         
         {showSettings && (
           <TouchableOpacity onPress={onSettingsPress} style={styles.settingsButton}>
-            <Ionicons name="settings-outline" size={24} color="#333" />
+            <Ionicons name="settings-outline" size={24} color="#fff" />
           </TouchableOpacity>
         )}
         
@@ -52,14 +54,15 @@ const Header: React.FC<HeaderProps> = ({
 
 const styles = StyleSheet.create({
   header: {
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    paddingTop: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    paddingTop: 30,
   },
   headerContent: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    position: 'relative',
   },
   logoContainer: {
     flexDirection: 'row',
@@ -79,11 +82,13 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   headerTitle: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    textAlign: 'center',
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
-    flex: 1,
-    textAlign: 'center',
+    color: '#fff',
   },
   backButton: {
     padding: 5,

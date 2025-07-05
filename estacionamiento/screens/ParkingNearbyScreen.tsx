@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
@@ -28,7 +28,7 @@ const ParkingNearbyScreen: React.FC = () => {
   const floor2Spots = generateSpots(16, 12);
 
   return (
-    <LinearGradient colors={['#E5E5E5', '#C4E5E5']} style={styles.container}>
+    <LinearGradient colors={['#fff', '#fff']} style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
         <Header 
           title="Estacionamientos cerca de mí"
@@ -40,19 +40,9 @@ const ParkingNearbyScreen: React.FC = () => {
           style={styles.content}
           showsVerticalScrollIndicator={false}
         >
-          <ParkingGrid
-            floor={1}
-            availableSpots={12}
-            totalSpots={32}
-            spots={floor1Spots}
-          />
+          <ParkingGrid floor={1} />
           
-          <ParkingGrid
-            floor={2}
-            availableSpots={12}
-            totalSpots={16}
-            spots={floor2Spots}
-          />
+          <ParkingGrid floor={2} />
         </ScrollView>
       </SafeAreaView>
     </LinearGradient>

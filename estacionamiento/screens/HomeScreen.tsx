@@ -14,10 +14,10 @@ const HomeScreen: React.FC = () => {
 
   const menuOptions = [
     {
-      id: 'nearby',
-      title: 'Estacionamientos cerca de mí',
-      icon: 'location',
-      onPress: () => navigation.navigate('ParkingNearby'),
+      id: 'activity',
+      title: 'Actividad del día',
+      icon: 'calendar',
+      onPress: () => navigation.navigate('DayActivity'),
     },
     {
       id: 'entrance',
@@ -41,7 +41,7 @@ const HomeScreen: React.FC = () => {
   ];
 
   return (
-    <LinearGradient colors={['#E5E5E5', '#C4E5E5']} style={styles.container}>
+    <LinearGradient colors={['#e7e9ec', '#e7e9ec']} style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
         <Header 
           showSettings 
@@ -51,7 +51,12 @@ const HomeScreen: React.FC = () => {
         <View style={styles.content}>
           <Text style={styles.greeting}>Hola, ¿a dónde</Text>
           <Text style={styles.greeting}>quieres ir?</Text>
-          
+          <LinearGradient
+            colors={['#a6a6a6', '#fff']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.menuContainer}
+          >
           <View style={styles.menuContainer}>
             {menuOptions.map((option) => (
               <TouchableOpacity
@@ -61,7 +66,7 @@ const HomeScreen: React.FC = () => {
                 activeOpacity={0.8}
               >
                 <LinearGradient
-                  colors={['#2D7B7B', '#4FC3C3']}
+                  colors={['#1f3339', '#06a3c4']}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}
                   style={styles.menuItemGradient}
@@ -82,8 +87,10 @@ const HomeScreen: React.FC = () => {
                   </View>
                 </LinearGradient>
               </TouchableOpacity>
+              
             ))}
           </View>
+          </LinearGradient>
         </View>
         
         {/* Footer */}
@@ -118,7 +125,10 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   menuContainer: {
-    marginTop: 40,
+    marginTop: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 15,
     gap: 20,
   },
   menuItem: {

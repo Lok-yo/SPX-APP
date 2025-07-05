@@ -12,6 +12,7 @@ import ParkingEntranceScreen from './estacionamiento/screens/ParkingEntranceScre
 import ParkingElevatorScreen from './entradas/ParkingElevatorScreen';
 import DisabledParkingScreen from './ascensores/DisabledParkingScreen';
 import SettingsScreen from './settings/SettingsScreen';
+import DayActivityScreen from './estacionamiento/screens/DayActivityScreen';
 
 export type RootStackParamList = {
   Splash: undefined;
@@ -21,6 +22,7 @@ export type RootStackParamList = {
   ParkingElevator: undefined;
   DisabledParking: undefined;
   Settings: undefined;
+  DayActivity: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -42,6 +44,7 @@ export default function App() {
         <Stack.Screen name="ParkingElevator" component={ParkingElevatorScreen} />
         <Stack.Screen name="DisabledParking" component={DisabledParkingScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
+        <Stack.Screen name="DayActivity" component={DayActivityScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -50,6 +53,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#e7e9ec',
   },
 });

@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, Dimensions, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 interface ParkingSpot {
@@ -10,24 +10,82 @@ interface ParkingSpot {
 
 interface ParkingGridProps {
   floor: number;
-  availableSpots: number;
-  totalSpots: number;
-  spots: ParkingSpot[];
-  type?: 'entrance' | 'elevator' | 'disabled';
 }
 
 const { width } = Dimensions.get('window');
-const spotWidth = (width - 60) / 8; // 8 spots per row with margins
+const spotWidth = (width - 60) / 6; // Ajustado para 6 espacios por lado
 
-const ParkingGrid: React.FC<ParkingGridProps> = ({
-  floor,
-  availableSpots,
-  totalSpots,
-  spots,
-  type,
-}) => {
+const ParkingGrid: React.FC<ParkingGridProps> = ({ floor }) => {
+  const [spots, setSpots] = useState<ParkingSpot[]>([]);
+
+  // Datos de ejemplo para mostrar cómo se verán las tablas
+  const generateMockData = (floorNumber: number) => {
+    const floorSpots: ParkingSpot[] = [];
+    
+    if (floorNumber === 1) {
+      // Piso 1: algunos espacios ocupados y otros libres
+      const floor1Data = [
+        { id: 'A1', available: true },
+        { id: 'A2', available: false },
+        { id: 'A3', available: true },
+        { id: 'A4', available: false },
+        { id: 'A5', available: true },
+        { id: 'A6', available: true },
+        { id: 'B1', available: false },
+        { id: 'B2', available: true },
+        { id: 'B3', available: false },
+        { id: 'B4', available: true },
+        { id: 'B5', available: false },
+        { id: 'B6', available: true },
+      ];
+      
+      floor1Data.forEach(spot => {
+        floorSpots.push({
+          id: spot.id,
+          available: spot.available,
+          type: undefined,
+        });
+      });
+    } else {
+      // Piso 2: diferentes ocupaciones
+      const floor2Data = [
+        { id: 'C1', available: false },
+        { id: 'C2', available: true },
+        { id: 'C3', available: false },
+        { id: 'C4', available: true },
+        { id: 'C5', available: true },
+        { id: 'C6', available: false },
+        { id: 'D1', available: true },
+        { id: 'D2', available: false },
+        { id: 'D3', available: true },
+        { id: 'D4', available: true },
+        { id: 'D5', available: true },
+        { id: 'D6', available: false },
+      ];
+      
+      floor2Data.forEach(spot => {
+        floorSpots.push({
+          id: spot.id,
+          available: spot.available,
+          type: undefined,
+        });
+      });
+    }
+    
+    return floorSpots;
+  };
+
+  useEffect(() => {
+    // Cargar datos de ejemplo
+    const mockSpots = generateMockData(floor);
+    setSpots(mockSpots);
+  }, [floor]);
+
+  const availableSpots = spots.filter(spot => spot.available).length;
+  const totalSpots = spots.length;
+
   const renderSpot = (spot: ParkingSpot) => {
-    const isSpecialSpot = spot.type === type;
+    const isSpecialSpot = spot.type !== undefined;
     
     return (
       <View
@@ -41,15 +99,18 @@ const ParkingGrid: React.FC<ParkingGridProps> = ({
           }
         ]}
       >
+        {/* Mostrar el ID del espacio */}
+        <Text style={styles.spotText}>{spot.id}</Text>
+        
         {isSpecialSpot && (
           <View style={styles.spotIcon}>
-            {type === 'entrance' && (
+            {spot.type === 'entrance' && (
               <Ionicons name="enter" size={12} color="white" />
             )}
-            {type === 'elevator' && (
+            {spot.type === 'elevator' && (
               <Ionicons name="arrow-up" size={12} color="white" />
             )}
-            {type === 'disabled' && (
+            {spot.type === 'disabled' && (
               <Ionicons name="accessibility" size={12} color="white" />
             )}
           </View>
@@ -58,20 +119,34 @@ const ParkingGrid: React.FC<ParkingGridProps> = ({
     );
   };
 
-  const renderSpotsGrid = () => {
-    const rows = [];
-    const spotsPerRow = 8;
-    
-    for (let i = 0; i < spots.length; i += spotsPerRow) {
-      const rowSpots = spots.slice(i, i + spotsPerRow);
-      rows.push(
-        <View key={i} style={styles.spotRow}>
-          {rowSpots.map(renderSpot)}
+  const renderSide = (sideSpots: ParkingSpot[]) => (
+    <View style={styles.side}>
+      {sideSpots.map(renderSpot)}
+    </View>
+  );
+
+  const renderParkingLayout = () => {
+    if (spots.length === 0) {
+      return (
+        <View style={styles.loadingContainer}>
+          <Text style={styles.loadingText}>Cargando espacios...</Text>
         </View>
       );
     }
-    
-    return rows;
+
+    // Dividir los espacios en dos lados
+    const leftSide = spots.slice(0, 6);  // Primeros 6 espacios (A1-A6 o C1-C6)
+    const rightSide = spots.slice(6, 12); // Siguientes 6 espacios (B1-B6 o D1-D6)
+
+    return (
+      <View style={styles.parkingLayout}>
+        {renderSide(leftSide)}
+        <View style={styles.centerPath}>
+          <View style={styles.pathLine} />
+        </View>
+        {renderSide(rightSide)}
+      </View>
+    );
   };
 
   return (
@@ -86,7 +161,7 @@ const ParkingGrid: React.FC<ParkingGridProps> = ({
       </View>
       
       <View style={styles.grid}>
-        {renderSpotsGrid()}
+        {renderParkingLayout()}
       </View>
     </View>
   );
@@ -119,23 +194,59 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   grid: {
-    gap: 8,
+    backgroundColor: '#e7e9ec',
+    borderRadius: 20,
+    padding: 16,
   },
-  spotRow: {
+  parkingLayout: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    gap: 4,
+    alignItems: 'center',
+  },
+  side: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+  },
+  centerPath: {
+    width: 40,
+    height: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 10,
+  },
+  pathLine: {
+    width: 4,
+    height: '80%',
+    backgroundColor: '#bdbdbd',
+    borderRadius: 2,
   },
   parkingSpot: {
     borderRadius: 4,
     justifyContent: 'center',
     alignItems: 'center',
+    margin: 4,
     position: 'relative',
+  },
+  spotText: {
+    color: 'white',
+    fontSize: 10,
+    fontWeight: 'bold',
   },
   spotIcon: {
     position: 'absolute',
     top: 2,
     right: 2,
+  },
+  loadingContainer: {
+    height: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    fontSize: 16,
+    color: '#666',
   },
 });
 
