@@ -13,8 +13,6 @@ const SettingsScreen: React.FC = () => {
   const navigation = useNavigation<SettingsScreenNavigationProp>();
   
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
-  const [lightMode, setLightMode] = useState(true);
 
   const settingSections = [
     {
@@ -25,27 +23,6 @@ const SettingsScreen: React.FC = () => {
       onChange: setNotificationsEnabled,
       expanded: true,
       description: 'Le llegarán avisos de disponibilidad de estacionamiento.',
-    },
-    {
-      id: 'display',
-      title: 'Escoge modo de pantalla',
-      type: 'display',
-      options: [
-        {
-          id: 'dark',
-          title: 'Modo oscuro',
-          icon: 'moon',
-          value: darkMode,
-          onChange: setDarkMode,
-        },
-        {
-          id: 'light',
-          title: 'Modo claro',
-          icon: 'sunny',
-          value: lightMode,
-          onChange: setLightMode,
-        },
-      ],
     },
     {
       id: 'support',
@@ -93,49 +70,6 @@ const SettingsScreen: React.FC = () => {
           </View>
         </View>
       )}
-    </View>
-  );
-
-  const renderDisplaySection = (section: any) => (
-    <View key={section.id} style={styles.section}>
-      <TouchableOpacity style={styles.sectionHeader}>
-        <LinearGradient
-          colors={['#2D7B7B', '#4FC3C3']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={styles.sectionHeaderGradient}
-        >
-          <Text style={styles.sectionTitle}>{section.title}</Text>
-          <Ionicons name="chevron-up" size={20} color="white" />
-        </LinearGradient>
-      </TouchableOpacity>
-      
-      <View style={styles.sectionContent}>
-        {section.options.map((option: any) => (
-          <View key={option.id} style={styles.displayOption}>
-            <View style={styles.displayOptionLeft}>
-              <View style={styles.displayIconContainer}>
-                <Ionicons name={option.icon} size={20} color="#333" />
-              </View>
-              <Text style={styles.displayOptionText}>{option.title}</Text>
-            </View>
-            <Switch
-              value={option.value}
-              onValueChange={(value) => {
-                if (option.id === 'dark') {
-                  setDarkMode(value);
-                  if (value) setLightMode(false);
-                } else {
-                  setLightMode(value);
-                  if (value) setDarkMode(false);
-                }
-              }}
-              trackColor={{ false: '#E0E0E0', true: '#4FC3C3' }}
-              thumbColor={option.value ? '#2D7B7B' : '#f4f3f4'}
-            />
-          </View>
-        ))}
-      </View>
     </View>
   );
 
@@ -189,8 +123,6 @@ const SettingsScreen: React.FC = () => {
               switch (section.type) {
                 case 'toggle':
                   return renderToggleSection(section);
-                case 'display':
-                  return renderDisplaySection(section);
                 case 'support':
                   return renderSupportSection(section);
                 default:
@@ -252,31 +184,6 @@ const styles = StyleSheet.create({
     color: '#333',
     fontSize: 14,
     marginRight: 15,
-  },
-  displayOption: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 15,
-  },
-  displayOptionLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-  },
-  displayIconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#F0F0F0',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 15,
-  },
-  displayOptionText: {
-    color: '#333',
-    fontSize: 16,
-    fontWeight: '500',
   },
   supportOption: {
     paddingVertical: 15,
