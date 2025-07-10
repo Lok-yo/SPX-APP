@@ -43,7 +43,7 @@ const SettingsScreen: React.FC = () => {
     <View key={section.id} style={styles.section}>
       <TouchableOpacity style={styles.sectionHeader}>
         <LinearGradient
-          colors={['#2D7B7B', '#4FC3C3']}
+          colors={['#1f3339', '#06a3c4']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           style={styles.sectionHeaderGradient}
@@ -77,7 +77,7 @@ const SettingsScreen: React.FC = () => {
     <View key={section.id} style={styles.section}>
       <TouchableOpacity style={styles.sectionHeader}>
         <LinearGradient
-          colors={['#2D7B7B', '#4FC3C3']}
+          colors={['#1f3339', '#06a3c4']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           style={styles.sectionHeaderGradient}
