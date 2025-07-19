@@ -1,11 +1,15 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import Header from '../../src/components/Header';
+
+import entrada from '../../assets/salida.png';
+import elevador from '../../assets/elevador.png';
+import discapacitado from '../../assets/discapacitado.png';
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -22,20 +26,20 @@ const HomeScreen: React.FC = () => {
     {
       id: 'entrance',
       title: 'Estacionamientos con cercanía a entradas',
-      icon: 'enter',
+      image: entrada,
       onPress: () => navigation.navigate('ParkingEntrance'),
     },
     {
       id: 'elevator',
       title: 'Estacionamientos con cercanía a ascensores',
-      icon: 'arrow-up',
+      image: elevador,
       onPress: () => navigation.navigate('ParkingElevator'),
     },
     {
       id: 'disabled',
       title: 'Estacionamientos con accesibilidad',
       subtitle: 'Espacios designados para personas con discapacidad',
-      icon: 'accessibility',
+      image: discapacitado,
       onPress: () => navigation.navigate('DisabledParking'),
     },
   ];
@@ -78,12 +82,16 @@ const HomeScreen: React.FC = () => {
                         <Text style={styles.menuItemSubtitle}>{option.subtitle}</Text>
                       )}
                     </View>
-                    <Ionicons 
-                      name={option.icon as any} 
-                      size={24} 
-                      color="white" 
-                      style={styles.menuIcon}
-                    />
+                    {option.image ? (
+                      <Image source={option.image} style={styles.menuIconImage} resizeMode="contain"/>
+                    ) : (
+                      <Ionicons 
+                        name={option.icon as any} 
+                        size={24} 
+                        color="white" 
+                        style={styles.menuIcon}
+                      />
+                    )}
                   </View>
                 </LinearGradient>
               </TouchableOpacity>
@@ -168,6 +176,11 @@ const styles = StyleSheet.create({
     lineHeight: 16,
   },
   menuIcon: {
+    marginLeft: 10,
+  },
+  menuIconImage: {
+    width: 28,
+    height: 28,
     marginLeft: 10,
   },
   footer: {

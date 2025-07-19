@@ -41,21 +41,8 @@ const DisabledParkingScreen: React.FC = () => {
           style={styles.content}
           showsVerticalScrollIndicator={false}
         >
-          <ParkingGrid
-            floor={1}
-            availableSpots={1}
-            totalSpots={32}
-            spots={floor1Spots}
-            type="disabled"
-          />
-          
-          <ParkingGrid
-            floor={2}
-            availableSpots={1}
-            totalSpots={16}
-            spots={floor2Spots}
-            type="disabled"
-          />
+          <ParkingGrid floor={1} disabledSpots={['A6', 'B6']} />
+          <ParkingGrid floor={2} />
         </ScrollView>
       </SafeAreaView>
     </LinearGradient>

@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Dimensions, Alert } from 'react-native';
+import { View, Image, Text, StyleSheet, Dimensions, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+
+import entrada from '../../assets/salida.png';
+import elevador from '../../assets/elevador.png';
+import discapacitado from '../../assets/discapacitado.png';
 
 interface ParkingSpot {
   id: string;
@@ -10,12 +14,20 @@ interface ParkingSpot {
 
 interface ParkingGridProps {
   floor: number;
+  disabledSpots?: string[];
+  entranceSpots?: string[];
+  elevatorSpots?: string[];
 }
 
 const { width } = Dimensions.get('window');
 const spotWidth = (width - 60) / 6; // Ajustado para 6 espacios por lado
 
-const ParkingGrid: React.FC<ParkingGridProps> = ({ floor }) => {
+const ParkingGrid: React.FC<ParkingGridProps> = ({ 
+  floor,
+  disabledSpots = [],
+  entranceSpots = [],
+  elevatorSpots = [],
+ }) => {
   const [spots, setSpots] = useState<ParkingSpot[]>([]);
 
   // Datos de ejemplo para mostrar cómo se verán las tablas
@@ -40,10 +52,14 @@ const ParkingGrid: React.FC<ParkingGridProps> = ({ floor }) => {
       ];
       
       floor1Data.forEach(spot => {
+        let type: ParkingSpot['type'] = undefined;
+        if (disabledSpots.includes(spot.id)) type = 'disabled';
+        else if (entranceSpots.includes(spot.id)) type = 'entrance';
+        else if (elevatorSpots.includes(spot.id)) type = 'elevator';
         floorSpots.push({
           id: spot.id,
           available: spot.available,
-          type: undefined,
+          type,
         });
       });
     } else {
@@ -64,10 +80,14 @@ const ParkingGrid: React.FC<ParkingGridProps> = ({ floor }) => {
       ];
       
       floor2Data.forEach(spot => {
+        let type: ParkingSpot['type'] = undefined;
+        if (disabledSpots.includes(spot.id)) type = 'disabled';
+        else if (entranceSpots.includes(spot.id)) type = 'entrance';
+        else if (elevatorSpots.includes(spot.id)) type = 'elevator';
         floorSpots.push({
           id: spot.id,
           available: spot.available,
-          type: undefined,
+          type,
         });
       });
     }
@@ -101,18 +121,19 @@ const ParkingGrid: React.FC<ParkingGridProps> = ({ floor }) => {
       >
         {/* Mostrar el ID del espacio */}
         <Text style={styles.spotText}>{spot.id}</Text>
-        
-        {isSpecialSpot && (
+        {spot.type === 'disabled' && (
           <View style={styles.spotIcon}>
-            {spot.type === 'entrance' && (
-              <Ionicons name="enter" size={12} color="white" />
-            )}
-            {spot.type === 'elevator' && (
-              <Ionicons name="arrow-up" size={12} color="white" />
-            )}
-            {spot.type === 'disabled' && (
-              <Ionicons name="accessibility" size={12} color="white" />
-            )}
+            <Image source={discapacitado} style={{ width: 16, height: 16 }} resizeMode="contain" />
+          </View>
+        )}
+        {spot.type === 'entrance' && (
+          <View style={styles.spotIcon}>
+            <Image source={entrada} style={{ width: 16, height: 16 }} resizeMode="contain" />
+          </View>
+        )}
+        {spot.type === 'elevator' && (
+          <View style={styles.spotIcon}>
+            <Image source={elevador} style={{ width: 16, height: 16 }} resizeMode="contain" />
           </View>
         )}
       </View>

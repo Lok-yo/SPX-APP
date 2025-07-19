@@ -41,21 +41,9 @@ const ParkingElevatorScreen: React.FC = () => {
           style={styles.content}
           showsVerticalScrollIndicator={false}
         >
-          <ParkingGrid
-            floor={1}
-            availableSpots={1}
-            totalSpots={32}
-            spots={floor1Spots}
-            type="elevator"
-          />
+          <ParkingGrid floor={1} elevatorSpots={['A6', 'A5','B5', 'B6']} />
           
-          <ParkingGrid
-            floor={2}
-            availableSpots={2}
-            totalSpots={16}
-            spots={floor2Spots}
-            type="elevator"
-          />
+          <ParkingGrid floor={2} elevatorSpots={['C6', 'D6']}/>
         </ScrollView>
       </SafeAreaView>
     </LinearGradient>

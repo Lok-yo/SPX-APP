@@ -42,7 +42,7 @@ const Header: React.FC<HeaderProps> = ({
         
         {showSettings && (
           <TouchableOpacity onPress={onSettingsPress} style={styles.settingsButton}>
-            <Ionicons name="settings-outline" size={24} color="#fff" />
+            <Image source={require('../../assets/settings.png')} style={{width: 30, height: 30}} />
           </TouchableOpacity>
         )}
         
