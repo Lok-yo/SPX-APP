@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Switch } from 'react-native';
+import { View, Image, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Switch } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../App';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import Header from '../src/components/Header';
+import ayuda from '../assets/ayuda.png';
 
 type SettingsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Settings'>;
 
@@ -33,7 +34,7 @@ const SettingsScreen: React.FC = () => {
           id: 'help',
           title: 'Centro de ayuda',
           subtitle: '• Guía de uso',
-          icon: 'help-circle',
+          image: ayuda,
         },
       ],
     },
@@ -54,6 +55,7 @@ const SettingsScreen: React.FC = () => {
             size={20} 
             color="white" 
           />
+          
         </LinearGradient>
       </TouchableOpacity>
       
@@ -92,7 +94,7 @@ const SettingsScreen: React.FC = () => {
           <TouchableOpacity key={option.id} style={styles.supportOption}>
             <View style={styles.supportOptionLeft}>
               <View style={styles.supportIconContainer}>
-                <Ionicons name={option.icon} size={20} color="#333" />
+                <Image source={option.image} style={styles.menuIconImage} resizeMode="contain"/>
               </View>
               <View>
                 <Text style={styles.supportOptionTitle}>{option.title}</Text>
@@ -184,6 +186,10 @@ const styles = StyleSheet.create({
     color: '#333',
     fontSize: 14,
     marginRight: 15,
+  },
+  menuIconImage: {
+    width: 40,
+    height: 40,
   },
   supportOption: {
     paddingVertical: 15,
