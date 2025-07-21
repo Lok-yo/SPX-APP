@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Image, Text, StyleSheet, Dimensions, Alert } from 'react-native';
+import axios from 'axios';
 import { Ionicons } from '@expo/vector-icons';
 
 import entrada from '../../assets/salida.png';
@@ -30,76 +31,36 @@ const ParkingGrid: React.FC<ParkingGridProps> = ({
  }) => {
   const [spots, setSpots] = useState<ParkingSpot[]>([]);
 
-  // Datos de ejemplo para mostrar cómo se verán las tablas
-  const generateMockData = (floorNumber: number) => {
-    const floorSpots: ParkingSpot[] = [];
-    
-    if (floorNumber === 1) {
-      // Piso 1: algunos espacios ocupados y otros libres
-      const floor1Data = [
-        { id: 'A1', available: true },
-        { id: 'A2', available: false },
-        { id: 'A3', available: true },
-        { id: 'A4', available: false },
-        { id: 'A5', available: true },
-        { id: 'A6', available: true },
-        { id: 'B1', available: false },
-        { id: 'B2', available: true },
-        { id: 'B3', available: false },
-        { id: 'B4', available: true },
-        { id: 'B5', available: false },
-        { id: 'B6', available: true },
-      ];
-      
-      floor1Data.forEach(spot => {
-        let type: ParkingSpot['type'] = undefined;
-        if (disabledSpots.includes(spot.id)) type = 'disabled';
-        else if (entranceSpots.includes(spot.id)) type = 'entrance';
-        else if (elevatorSpots.includes(spot.id)) type = 'elevator';
-        floorSpots.push({
-          id: spot.id,
-          available: spot.available,
-          type,
+  useEffect(() => {
+  const fetchData = () => {
+    axios.get('http://192.168.1.72:3001/disponibilidad')
+      .then(response => {
+        const apiSpots = response.data;
+        const ids = floor === 1
+          ? ['A1','A2','A3','A4','A5','A6','B1','B2','B3','B4','B5','B6']
+          : ['C1','C2','C3','C4','C5','C6','D1','D2','D3','D4','D5','D6'];
+        const floorSpots: ParkingSpot[] = ids.map(id => {
+          const found = apiSpots.find(s => s.posicion === id);
+          let available = true;
+          if (found) available = found.estatus === 1;
+          let type: ParkingSpot['type'] = undefined;
+          if (disabledSpots.includes(id)) type = 'disabled';
+          else if (entranceSpots.includes(id)) type = 'entrance';
+          else if (elevatorSpots.includes(id)) type = 'elevator';
+          return { id, available, type };
         });
+        setSpots(floorSpots);
+      })
+      .catch(error => {
+        console.error('Error al obtener datos de la API:', error);
       });
-    } else {
-      // Piso 2: diferentes ocupaciones
-      const floor2Data = [
-        { id: 'C1', available: false },
-        { id: 'C2', available: true },
-        { id: 'C3', available: false },
-        { id: 'C4', available: true },
-        { id: 'C5', available: true },
-        { id: 'C6', available: false },
-        { id: 'D1', available: true },
-        { id: 'D2', available: false },
-        { id: 'D3', available: true },
-        { id: 'D4', available: true },
-        { id: 'D5', available: true },
-        { id: 'D6', available: false },
-      ];
-      
-      floor2Data.forEach(spot => {
-        let type: ParkingSpot['type'] = undefined;
-        if (disabledSpots.includes(spot.id)) type = 'disabled';
-        else if (entranceSpots.includes(spot.id)) type = 'entrance';
-        else if (elevatorSpots.includes(spot.id)) type = 'elevator';
-        floorSpots.push({
-          id: spot.id,
-          available: spot.available,
-          type,
-        });
-      });
-    }
-    
-    return floorSpots;
   };
 
-  useEffect(() => {
-    // Cargar datos de ejemplo
-    const mockSpots = generateMockData(floor);
-    setSpots(mockSpots);
-  }, [floor]);
+  fetchData(); // Primera carga
+  const interval = setInterval(fetchData, 5000); // Actualiza cada 5 segundos
+
+  return () => clearInterval(interval); // Limpia el intervalo al desmontar
+}, [floor, disabledSpots, entranceSpots, elevatorSpots]);
 
   const availableSpots = spots.filter(spot => spot.available).length;
   const totalSpots = spots.length;
