@@ -9,8 +9,8 @@ import SplashScreen from './estacionamiento/screens/SplashScreen';
 import HomeScreen from './estacionamiento/screens/HomeScreen';
 import ParkingNearbyScreen from './estacionamiento/screens/ParkingNearbyScreen';
 import ParkingEntranceScreen from './estacionamiento/screens/ParkingEntranceScreen';
-import ParkingElevatorScreen from './entradas/ParkingElevatorScreen';
-import DisabledParkingScreen from './ascensores/DisabledParkingScreen';
+import ParkingElevatorScreen from './estacionamiento/screens/ParkingElevatorScreen';
+import DisabledParkingScreen from './estacionamiento/screens/DisabledParkingScreen';
 import SettingsScreen from './settings/SettingsScreen';
 import DayActivityScreen from './estacionamiento/screens/DayActivityScreen';
 

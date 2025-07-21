@@ -2,17 +2,16 @@ import React from 'react';
 import { View, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../App';
+import { RootStackParamList } from '../../App';
 import { LinearGradient } from 'expo-linear-gradient';
-import Header from '../src/components/Header';
-import ParkingGrid from '../src/components/ParkingGrid';
+import Header from '../../src/components/Header';
+import ParkingGrid from '../../src/components/ParkingGrid';
 
 type ParkingElevatorScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ParkingElevator'>;
 
 const ParkingElevatorScreen: React.FC = () => {
   const navigation = useNavigation<ParkingElevatorScreenNavigationProp>();
 
-  // Mock data for parking spots with elevator proximity
   const generateSpotsWithElevator = (total: number, available: number, elevatorSpots: number[]) => {
     const spots = [];
     for (let i = 0; i < total; i++) {
