@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Image, Text, StyleSheet, Dimensions, Alert } from 'react-native';
 import axios from 'axios';
-import { Ionicons } from '@expo/vector-icons';
-
 import entrada from '../../assets/salida.png';
 import elevador from '../../assets/elevador.png';
 import discapacitado from '../../assets/discapacitado.png';

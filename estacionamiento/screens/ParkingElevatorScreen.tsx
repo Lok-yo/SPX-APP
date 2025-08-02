@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { View, StyleSheet, SafeAreaView, ScrollView, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
 import { LinearGradient } from 'expo-linear-gradient';
 import Header from '../../src/components/Header';
 import ParkingGrid from '../../src/components/ParkingGrid';
+import ParkingGridGeneral from '../../src/components/ParkingGridGeneral';
 
 type ParkingElevatorScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ParkingElevator'>;
 
@@ -43,7 +44,11 @@ const ParkingElevatorScreen: React.FC = () => {
           <ParkingGrid floor={1} elevatorSpots={['A6', 'A5','B5', 'B6']} />
           
           <ParkingGrid floor={2} elevatorSpots={['C6', 'D6']}/>
+          
         </ScrollView>
+        <View style={styles.footer}>
+          <ParkingGridGeneral />
+        </View>
       </SafeAreaView>
     </LinearGradient>
   );
@@ -60,6 +65,23 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
     paddingTop: 20,
+  },
+  footer: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#fff',
+    padding: 16,
+    alignItems: 'center',
+    borderTopWidth: 1,
+    borderTopColor: '#eee',
+    zIndex: 10,
+  },
+  footerText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#2D7B7B',
   },
 });
 

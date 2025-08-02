@@ -7,7 +7,6 @@ import { StyleSheet } from 'react-native';
 // Screens
 import SplashScreen from './estacionamiento/screens/SplashScreen';
 import HomeScreen from './estacionamiento/screens/HomeScreen';
-import ParkingNearbyScreen from './estacionamiento/screens/ParkingNearbyScreen';
 import ParkingEntranceScreen from './estacionamiento/screens/ParkingEntranceScreen';
 import ParkingElevatorScreen from './estacionamiento/screens/ParkingElevatorScreen';
 import DisabledParkingScreen from './estacionamiento/screens/DisabledParkingScreen';
@@ -39,7 +38,6 @@ export default function App() {
       >
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="ParkingNearby" component={ParkingNearbyScreen} />
         <Stack.Screen name="ParkingEntrance" component={ParkingEntranceScreen} />
         <Stack.Screen name="ParkingElevator" component={ParkingElevatorScreen} />
         <Stack.Screen name="DisabledParking" component={DisabledParkingScreen} />

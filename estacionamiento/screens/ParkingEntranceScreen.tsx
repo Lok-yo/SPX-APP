@@ -6,6 +6,7 @@ import { RootStackParamList } from '../../App';
 import { LinearGradient } from 'expo-linear-gradient';
 import Header from '../../src/components/Header';
 import ParkingGrid from '../../src/components/ParkingGrid';
+import ParkingGridGeneral from '../../src/components/ParkingGridGeneral';
 
 type ParkingEntranceScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ParkingEntrance'>;
 
@@ -45,6 +46,9 @@ const ParkingEntranceScreen: React.FC = () => {
           
           <ParkingGrid floor={2} entranceSpots={['C6', 'D6','C5', 'D5']} />
         </ScrollView>
+        <View style={styles.footer}>
+          <ParkingGridGeneral />
+        </View>
       </SafeAreaView>
     </LinearGradient>
   );
@@ -61,6 +65,18 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
     paddingTop: 20,
+  },
+  footer: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#fff',
+    padding: 16,
+    alignItems: 'center',
+    borderTopWidth: 1,
+    borderTopColor: '#eee',
+    zIndex: 10,
   },
 });
 
