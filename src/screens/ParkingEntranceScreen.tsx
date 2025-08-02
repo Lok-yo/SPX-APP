@@ -7,12 +7,14 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Header from '../components/Header';
 import ParkingGrid from '../components/ParkingGrid';
 import ParkingGridGeneral from '../components/ParkingGridGeneral';
+import NotificationAlert from '../components/NotificationAlert';
+import { useSettings } from '../context/SettingsContext';
 
 type ParkingEntranceScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ParkingEntrance'>;
 
 const ParkingEntranceScreen: React.FC = () => {
   const navigation = useNavigation<ParkingEntranceScreenNavigationProp>();
-
+  const { notificationsEnabled } = useSettings();
   // Mock data for parking spots with entrance proximity
   const generateSpotsWithEntrance = (total: number, available: number, entranceSpots: number[]) => {
     const spots = [];
@@ -48,6 +50,7 @@ const ParkingEntranceScreen: React.FC = () => {
         </ScrollView>
         <View style={styles.footer}>
           <ParkingGridGeneral />
+          <NotificationAlert enabled={notificationsEnabled} />
         </View>
       </SafeAreaView>
     </LinearGradient>
