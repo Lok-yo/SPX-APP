@@ -5,7 +5,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
-import Header from '../../src/components/Header';
+import Header from '../components/Header';
 
 import entrada from '../../assets/salida.png';
 import elevador from '../../assets/elevador.png';

@@ -4,36 +4,38 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
 import { LinearGradient } from 'expo-linear-gradient';
-import Header from '../../src/components/Header';
-import ParkingGrid from '../../src/components/ParkingGrid';
-import ParkingGridGeneral from '../../src/components/ParkingGridGeneral';
+import Header from '../components/Header';
+import ParkingGrid from '../components/ParkingGrid';
+import ParkingGridGeneral from '../components/ParkingGridGeneral';
+import NotificationAlert from '../components/NotificationAlert';
+import { useSettings } from '../context/SettingsContext';
 
-type ParkingEntranceScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ParkingEntrance'>;
+type DisabledParkingScreenNavigationProp = StackNavigationProp<RootStackParamList, 'DisabledParking'>;
 
-const ParkingEntranceScreen: React.FC = () => {
-  const navigation = useNavigation<ParkingEntranceScreenNavigationProp>();
-
-  // Mock data for parking spots with entrance proximity
-  const generateSpotsWithEntrance = (total: number, available: number, entranceSpots: number[]) => {
+const DisabledParkingScreen: React.FC = () => {
+  const navigation = useNavigation<DisabledParkingScreenNavigationProp>();
+  const { notificationsEnabled } = useSettings();
+  // Mock data for parking spots with disabled accessibility
+  const generateSpotsWithDisabled = (total: number, available: number, disabledSpots: number[]) => {
     const spots = [];
     for (let i = 0; i < total; i++) {
       spots.push({
         id: `spot-${i}`,
         available: i < available,
-        type: entranceSpots.includes(i) ? 'entrance' as const : undefined,
+        type: disabledSpots.includes(i) ? 'disabled' as const : undefined,
       });
     }
     return spots;
   };
 
-  const floor1Spots = generateSpotsWithEntrance(32, 3, [0, 1, 8, 9]);
-  const floor2Spots = generateSpotsWithEntrance(16, 12, [0, 1]);
+  const floor1Spots = generateSpotsWithDisabled(32, 1, [24, 25]);
+  const floor2Spots = generateSpotsWithDisabled(16, 1, [8, 9]);
 
   return (
     <LinearGradient colors={['#E5E5E5', '#C4E5E5']} style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
         <Header 
-          title="Estacionamientos con cercanía a entradas"
+          title="Estacionamientos para discapacitados"
           showBack 
           onBackPress={() => navigation.goBack()}
         />
@@ -42,12 +44,12 @@ const ParkingEntranceScreen: React.FC = () => {
           style={styles.content}
           showsVerticalScrollIndicator={false}
         >
-          <ParkingGrid floor={1} entranceSpots={['A5', 'B5']} />
-          
-          <ParkingGrid floor={2} entranceSpots={['C6', 'D6','C5', 'D5']} />
+          <ParkingGrid floor={1} disabledSpots={['A6', 'B6']} />
+          <ParkingGrid floor={2} />
         </ScrollView>
         <View style={styles.footer}>
           <ParkingGridGeneral />
+          <NotificationAlert enabled={notificationsEnabled} />
         </View>
       </SafeAreaView>
     </LinearGradient>
@@ -80,4 +82,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ParkingEntranceScreen;
+export default DisabledParkingScreen;

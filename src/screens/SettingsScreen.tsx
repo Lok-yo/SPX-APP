@@ -2,18 +2,19 @@ import React, { useState } from 'react';
 import { View, Image, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Switch } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../App';
+import { RootStackParamList } from '../../App';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
-import Header from '../src/components/Header';
-import ayuda from '../assets/ayuda.png';
+import Header from '../components/Header';
+import ayuda from '../../assets/ayuda.png';
+import { useSettings } from '../context/SettingsContext';
 
 type SettingsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Settings'>;
 
 const SettingsScreen: React.FC = () => {
   const navigation = useNavigation<SettingsScreenNavigationProp>();
   
-  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const { notificationsEnabled, setNotificationsEnabled } = useSettings();
 
   const settingSections = [
     {

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Dimensions, SafeAreaView, ScrollView } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { LinearGradient } from 'expo-linear-gradient';
-import Header from '../../src/components/Header';
+import Header from '../components/Header';
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
