@@ -4,8 +4,6 @@ import { LineChart } from 'react-native-chart-kit';
 import { LinearGradient } from 'expo-linear-gradient';
 import Header from '../../src/components/Header';
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../App';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
