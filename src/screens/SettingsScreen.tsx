@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { View, Image, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Switch } from 'react-native';
+import { View, Image, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Switch, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
 import Header from '../components/Header';
 import ayuda from '../../assets/ayuda.png';
 import { useSettings } from '../context/SettingsContext';
@@ -51,11 +50,6 @@ const SettingsScreen: React.FC = () => {
           style={styles.sectionHeaderGradient}
         >
           <Text style={styles.sectionTitle}>{section.title}</Text>
-          <Ionicons 
-            name={section.expanded ? "chevron-up" : "chevron-down"} 
-            size={20} 
-            color="white" 
-          />
           
         </LinearGradient>
       </TouchableOpacity>
@@ -75,6 +69,11 @@ const SettingsScreen: React.FC = () => {
       )}
     </View>
   );
+  const [showContactModal, setShowContactModal] = useState(false);
+
+  const handleSupportPress = () => {
+    setShowContactModal(true);
+  };
 
   const renderSupportSection = (section: any) => (
     <View key={section.id} style={styles.section}>
@@ -86,13 +85,16 @@ const SettingsScreen: React.FC = () => {
           style={styles.sectionHeaderGradient}
         >
           <Text style={styles.sectionTitle}>{section.title}</Text>
-          <Ionicons name="chevron-up" size={20} color="white" />
         </LinearGradient>
       </TouchableOpacity>
       
       <View style={styles.sectionContent}>
         {section.options.map((option: any) => (
-          <TouchableOpacity key={option.id} style={styles.supportOption}>
+          <TouchableOpacity 
+            key={option.id} 
+            style={styles.supportOption}
+            onPress={handleSupportPress}
+          >
             <View style={styles.supportOptionLeft}>
               <View style={styles.supportIconContainer}>
                 <Image source={option.image} style={styles.menuIconImage} resizeMode="contain"/>
@@ -105,11 +107,30 @@ const SettingsScreen: React.FC = () => {
           </TouchableOpacity>
         ))}
       </View>
+
+      <Modal
+        visible={showContactModal}
+        transparent
+        animationType="fade"
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Contacto</Text>
+            <Text style={styles.modalText}>+1 234 567 8900</Text>
+            <TouchableOpacity 
+              style={styles.modalButton}
+              onPress={() => setShowContactModal(false)}
+            >
+              <Text style={styles.modalButtonText}>Aceptar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 
   return (
-    <LinearGradient colors={['#E5E5E5', '#C4E5E5']} style={styles.container}>
+    <LinearGradient colors={['#e7e9ec', '#e7e9ec']} style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
         <Header 
           title="AJUSTES"
@@ -217,6 +238,41 @@ const styles = StyleSheet.create({
     color: '#666',
     fontSize: 12,
     marginTop: 2,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 15,
+    width: '80%',
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 15,
+    color: '#333',
+  },
+  modalText: {
+    fontSize: 16,
+    color: '#666',
+    marginBottom: 20,
+  },
+  modalButton: {
+    backgroundColor: '#06a3c4',
+    paddingHorizontal: 30,
+    paddingVertical: 10,
+    borderRadius: 8,
+  },
+  modalButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '500',
   },
 });
 
