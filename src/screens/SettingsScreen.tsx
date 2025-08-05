@@ -34,7 +34,7 @@ const SettingsScreen: React.FC = () => {
         {
           id: 'help',
           title: 'Centro de ayuda',
-          subtitle: '• Guía de uso',
+          subtitle: '• Contacto',
           image: ayuda,
         },
       ],
