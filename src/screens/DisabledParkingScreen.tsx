@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     flex: 1,
+    paddingBottom: 30,
   },
   content: {
     flex: 1,

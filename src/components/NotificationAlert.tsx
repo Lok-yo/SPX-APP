@@ -21,12 +21,12 @@ const NotificationAlert: React.FC<NotificationAlertProps> = ({ enabled }) => {
     if (!enabled) return;
 
     const fetchGeneral = () => {
-      fetch('http://192.168.1.72:3001/disponibilidad')
+      fetch('http://192.168.137.1:3001/disponibilidad')
         .then(res => res.json())
         .then(apiSpots => {
           const available = ALL_SPOTS.filter(id => {
             const found = apiSpots.find((s: any) => s.posicion === id);
-            return found ? found.estatus === 1 : true;
+            return found ? found.estatus === 0 : true;
           }).length;
           const percent = Math.round((available / ALL_SPOTS.length) * 100);
 
