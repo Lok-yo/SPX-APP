@@ -49,8 +49,8 @@ const DisabledParkingScreen: React.FC = () => {
         </ScrollView>
         <View style={styles.footer}>
           <ParkingGridGeneral />
-          <NotificationAlert enabled={notificationsEnabled} />
         </View>
+        <NotificationAlert enabled={notificationsEnabled} />
       </SafeAreaView>
     </LinearGradient>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 import { Audio } from 'expo-av';
 
 const ALL_SPOTS = [
@@ -12,7 +12,7 @@ interface NotificationAlertProps {
 }
 
 const NotificationAlert: React.FC<NotificationAlertProps> = ({ enabled }) => {
-  const [alerts, setAlerts] = useState<any[]>([]);
+  const [currentAlert, setCurrentAlert] = useState<any>(null);
   const [sound, setSound] = useState<any>(null);
   const prevPercent = useRef<number>(0);
   const wasFull = useRef<boolean>(false);
@@ -21,7 +21,7 @@ const NotificationAlert: React.FC<NotificationAlertProps> = ({ enabled }) => {
     if (!enabled) return;
 
     const fetchGeneral = () => {
-      fetch('http://192.168.137.1:3001/disponibilidad')
+      fetch('http://192.168.38.18:3001/disponibilidad')
         .then(res => res.json())
         .then(apiSpots => {
           const available = ALL_SPOTS.filter(id => {
@@ -30,7 +30,6 @@ const NotificationAlert: React.FC<NotificationAlertProps> = ({ enabled }) => {
           }).length;
           const percent = Math.round((available / ALL_SPOTS.length) * 100);
 
-          // Detecta transición de lleno a desocupado
           if (percent === 0) {
             wasFull.current = true;
           } else if (wasFull.current && percent > 0) {
@@ -40,9 +39,9 @@ const NotificationAlert: React.FC<NotificationAlertProps> = ({ enabled }) => {
               title: '¡Lugar disponible!',
               message: 'Se ha liberado un lugar en el estacionamiento.',
             };
-            setAlerts(prev => [newAlert, ...prev]);
+            setCurrentAlert(newAlert);
             playSound();
-            wasFull.current = false; // Solo alerta una vez hasta que vuelva a llenarse
+            wasFull.current = false;
           }
 
           prevPercent.current = percent;
@@ -65,54 +64,72 @@ const NotificationAlert: React.FC<NotificationAlertProps> = ({ enabled }) => {
     await sound.playAsync();
   };
 
-  const renderItem = ({ item }: any) => (
-    <View style={styles.messageBubble}>
-      <Text style={styles.title}>{item.title}</Text>
-      <Text style={styles.message}>{item.message}</Text>
-      <Text style={styles.time}>{item.time}</Text>
-    </View>
-  );
-
-  if (!enabled || alerts.length === 0) return null;
+  if (!enabled) return null;
 
   return (
-    <FlatList
-      data={alerts}
-      renderItem={renderItem}
-      keyExtractor={item => item.id}
-      inverted
-      style={{ marginTop: 20 }}
-    />
+    <Modal
+      visible={currentAlert !== null}
+      transparent
+      animationType="fade"
+    >
+      <View style={styles.modalOverlay}>
+        <View style={styles.modalContent}>
+          <Text style={styles.modalTitle}>{currentAlert?.title}</Text>
+          <Text style={styles.modalText}>{currentAlert?.message}</Text>
+          <Text style={styles.time}>{currentAlert?.time}</Text>
+          <TouchableOpacity 
+            style={styles.modalButton}
+            onPress={() => setCurrentAlert(null)}
+          >
+            <Text style={styles.modalButtonText}>Aceptar</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Modal>
   );
 };
 
 const styles = StyleSheet.create({
-  messageBubble: {
-    backgroundColor: '#ffffff',
-    padding: 12,
-    borderRadius: 12,
-    marginBottom: 10,
-    alignSelf: 'flex-start',
-    maxWidth: '85%',
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  title: {
-    fontWeight: 'bold',
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 15,
+    width: '80%',
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: '600',
     color: '#d93025',
-    marginBottom: 4,
+    marginBottom: 15,
   },
-  message: {
-    fontSize: 15,
-    color: '#333333',
+  modalText: {
+    fontSize: 16,
+    color: '#333',
+    marginBottom: 10,
+    textAlign: 'center',
   },
   time: {
     fontSize: 12,
     color: 'gray',
-    marginTop: 6,
-    alignSelf: 'flex-end',
+    marginBottom: 20,
+  },
+  modalButton: {
+    backgroundColor: '#06a3c4',
+    paddingHorizontal: 30,
+    paddingVertical: 10,
+    borderRadius: 8,
+  },
+  modalButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '500',
   },
 });
 

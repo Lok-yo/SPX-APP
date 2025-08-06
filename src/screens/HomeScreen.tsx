@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backgroundColor: 'rgb(255, 0, 0)',
   },
   activeIndicator: {
     backgroundColor: '#4FC946',
