@@ -33,9 +33,9 @@ const ParkingElevatorScreen: React.FC = () => {
   return (
     <LinearGradient colors={['#E5E5E5', '#C4E5E5']} style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
-        <Header 
+        <Header
           title="Estacionamientos con cercanía a ascensores"
-          showBack 
+          showBack={true}
           onBackPress={() => navigation.goBack()}
         />
         

@@ -34,10 +34,11 @@ const DisabledParkingScreen: React.FC = () => {
   return (
     <LinearGradient colors={['#E5E5E5', '#C4E5E5']} style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
-        <Header 
-          title="Estacionamientos para discapacitados"
+        <Header
           showBack 
           onBackPress={() => navigation.goBack()}
+          title="   Estacionamientos para       discapacitados"
+          
         />
         
         <ScrollView 

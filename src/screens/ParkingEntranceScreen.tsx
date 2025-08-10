@@ -34,10 +34,10 @@ const ParkingEntranceScreen: React.FC = () => {
   return (
     <LinearGradient colors={['#E5E5E5', '#C4E5E5']} style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
-        <Header 
-          title="Estacionamientos con cercanía a entradas"
+        <Header
           showBack 
           onBackPress={() => navigation.goBack()}
+          title="Estacionamientos con                       cercanía a entradas"
         />
         
         <ScrollView 

@@ -28,7 +28,7 @@ const Header: React.FC<HeaderProps> = ({
       <View style={styles.headerContent}>
         {showBack ? (
           <TouchableOpacity onPress={onBackPress} style={styles.backButton}>
-            <Ionicons name="chevron-back" size={24} color="#333" />
+            <Ionicons name="chevron-back" size={27} color="#ffffffff" />
           </TouchableOpacity>
         ) : (
           <View style={styles.logoContainer}>
@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     padding: 5,
+    zIndex: 1,
   },
   settingsButton: {
     padding: 5,
