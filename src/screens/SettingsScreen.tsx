@@ -68,6 +68,7 @@ const SettingsScreen: React.FC = () => {
         </View>
       )}
     </View>
+    
   );
   const [showContactModal, setShowContactModal] = useState(false);
 
@@ -155,6 +156,13 @@ const SettingsScreen: React.FC = () => {
             })}
           </View>
         </ScrollView>
+        <View style={styles.footer}>
+            <Text style={styles.footerText}>SMART PARKING EXPERIENCE</Text>
+            <View style={styles.indicatorContainer}>
+              <View style={styles.indicator} />
+              <View style={[styles.indicator, styles.activeIndicator]} />
+            </View>
+        </View>
       </SafeAreaView>
     </LinearGradient>
   );
@@ -273,6 +281,29 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: '500',
+  },
+  footer: {
+    alignItems: 'center',
+    paddingBottom: 30,
+  },
+  footerText: {
+    fontSize: 14,
+    color: '#666',
+    fontWeight: '500',
+    marginBottom: 15,
+  },
+  indicatorContainer: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  indicator: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: 'rgb(255, 0, 0)',
+  },
+  activeIndicator: {
+    backgroundColor: '#4FC946',
   },
 });
 

@@ -33,9 +33,9 @@ const ParkingElevatorScreen: React.FC = () => {
   return (
     <LinearGradient colors={['#E5E5E5', '#C4E5E5']} style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
-        <Header 
+        <Header
           title="Estacionamientos con cercanía a ascensores"
-          showBack 
+          showBack={true}
           onBackPress={() => navigation.goBack()}
         />
         
@@ -52,6 +52,13 @@ const ParkingElevatorScreen: React.FC = () => {
           <ParkingGridGeneral />
         </View>
         <NotificationAlert enabled={notificationsEnabled} />
+        <View style={styles.footer2}>
+          <Text style={styles.footerText}>SMART PARKING EXPERIENCE</Text>
+          <View style={styles.indicatorContainer}>
+            <View style={styles.indicator} />
+            <View style={[styles.indicator, styles.activeIndicator]} />
+          </View>
+        </View>
       </SafeAreaView>
     </LinearGradient>
   );
@@ -81,6 +88,29 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: '#eee',
     zIndex: 10,
+  },
+  footer2: {
+    alignItems: 'center',
+    paddingBottom: 30,
+  },
+  footerText: {
+    fontSize: 14,
+    color: '#666',
+    fontWeight: '500',
+    marginBottom: 15,
+  },
+  indicatorContainer: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  indicator: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: 'rgb(255, 0, 0)',
+  },
+  activeIndicator: {
+    backgroundColor: '#4FC946',
   },
 });
 

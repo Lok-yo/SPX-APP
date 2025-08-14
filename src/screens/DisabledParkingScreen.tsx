@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { View, StyleSheet, SafeAreaView, ScrollView, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
@@ -34,10 +34,11 @@ const DisabledParkingScreen: React.FC = () => {
   return (
     <LinearGradient colors={['#E5E5E5', '#C4E5E5']} style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
-        <Header 
-          title="Estacionamientos para discapacitados"
+        <Header
           showBack 
           onBackPress={() => navigation.goBack()}
+          title="   Estacionamientos para       discapacitados"
+          
         />
         
         <ScrollView 
@@ -49,6 +50,13 @@ const DisabledParkingScreen: React.FC = () => {
         </ScrollView>
         <View style={styles.footer}>
           <ParkingGridGeneral />
+        </View>
+        <View style={styles.footer2}>
+          <Text style={styles.footerText}>SMART PARKING EXPERIENCE</Text>
+          <View style={styles.indicatorContainer}>
+            <View style={styles.indicator} />
+            <View style={[styles.indicator, styles.activeIndicator]} />
+          </View>
         </View>
         <NotificationAlert enabled={notificationsEnabled} />
       </SafeAreaView>
@@ -80,6 +88,29 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: '#eee',
     zIndex: 10,
+  },
+  footer2: {
+    alignItems: 'center',
+    paddingBottom: 30,
+  },
+  footerText: {
+    fontSize: 14,
+    color: '#666',
+    fontWeight: '500',
+    marginBottom: 15,
+  },
+  indicatorContainer: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  indicator: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: 'rgb(255, 0, 0)',
+  },
+  activeIndicator: {
+    backgroundColor: '#4FC946',
   },
 });
 

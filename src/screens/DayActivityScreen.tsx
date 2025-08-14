@@ -67,9 +67,9 @@ return (
   <LinearGradient colors={['#e0e0e0', '#fff']} style={styles.container}>
     <SafeAreaView style={styles.safeArea}>
       <Header
-        title="Estadísticas de ocupación"
         showBack
         onBackPress={() => navigation.goBack()}
+        title="Estadísticas de ocupación"
       />
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>
