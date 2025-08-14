@@ -12,13 +12,13 @@ const ParkingGridGeneral: React.FC = () => {
 
   useEffect(() => {
     const fetchData = () => {
-      axios.get('http://192.168.38.18:3001/disponibilidad')
+      axios.get('http://192.168.10.153:3001/disponibilidad')
         .then(response => {
           const apiSpots = response.data;
           const allSpots = ALL_SPOTS.map(id => {
             const found = apiSpots.find(s => s.posicion === id);
             let available = true;
-            if (found) available = found.estatus === 0;
+            if (found) available = found.estatus === 1;
             return { id, available };
           });
           setSpots(allSpots);

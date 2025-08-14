@@ -31,7 +31,7 @@ const ParkingGrid: React.FC<ParkingGridProps> = ({
 
   useEffect(() => {
   const fetchData = () => {
-    axios.get('http://192.168.38.18:3001/disponibilidad')
+    axios.get('http://192.168.10.153:3001/disponibilidad')
       .then(response => {
         const apiSpots = response.data;
         const ids = floor === 1
@@ -40,7 +40,7 @@ const ParkingGrid: React.FC<ParkingGridProps> = ({
         const floorSpots: ParkingSpot[] = ids.map(id => {
           const found = apiSpots.find(s => s.posicion === id);
           let available = true;
-          if (found) available = found.estatus === 0;
+          if (found) available = found.estatus === 1;
           let type: ParkingSpot['type'] = undefined;
           if (disabledSpots.includes(id)) type = 'disabled';
           else if (entranceSpots.includes(id)) type = 'entrance';

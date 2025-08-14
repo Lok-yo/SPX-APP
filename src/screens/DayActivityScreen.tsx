@@ -34,7 +34,7 @@ const ParkingStatsScreen: React.FC = () => {
   const [busiestHour, setBusiestHour] = useState('');
 
   useEffect(() => {
-  axios.get('http://192.168.38.18:3001/ocupacion-promedio-por-hora')
+  axios.get('http://192.168.10.153:3001/ocupacion-promedio-por-hora')
     .then(res => {
       // res.data es el array que recibes del backend
       // Genera todas las horas de 6 a 18
